@@ -24,7 +24,6 @@ if ('development' == app.get('env')) {
 }
 
 /* RESTful API */
-app.get('/', routes.index);
 app.get('/api/posts', post.getAllPosts);
 app.put('/api/posts/:post_id', post.editPost);
 app.post('/api/posts', post.addPost);
@@ -42,6 +41,7 @@ var renderIndex = function(req, res, next) {
 /* Render page - When user sends request by calling URL directly 
  * i.e. typing URL or refreshing browser
  */
+app.get('/', renderIndex, routes.indexSpider);
 app.get('/posts', renderIndex, post.renderPostList);
 app.get('/posts/:post_id', renderIndex, post.renderPostDetail);
 app.get('/posts/edit/:post_id', function(req, res) {
