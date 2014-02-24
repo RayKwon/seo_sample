@@ -51,6 +51,7 @@ exports.deletePost = function(req, res) {
 
 exports.renderPostList = function(req, res) {
   res.render('post_list', { 
+    title : 'show the way to solve seo issue in single page application',
     keywords: 'seo, sample, spa', 
     description: 'show the way to solve seo issue in single page application',
     posts: posts
@@ -60,6 +61,7 @@ exports.renderPostList = function(req, res) {
 exports.renderPostDetail =  function(req, res) {
   var post = _.find(posts, function(post) { return post.id == req.params.post_id; });
   res.render('post_detail', { 
+    title: post.title,
     keywords: 'seo, sample',  
     description: 'show the way to solve seo issue in single page application',
     post: post
