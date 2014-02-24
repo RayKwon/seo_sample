@@ -3,6 +3,7 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var post = require('./routes/post');
+var sm = require('sitemap');
 
 var app = express();
 
@@ -46,6 +47,24 @@ app.get('/posts', renderIndex, post.renderPostList);
 app.get('/posts/:post_id', renderIndex, post.renderPostDetail);
 app.get('/posts/edit/:post_id', function(req, res) {
   res.render('index');
+});
+
+app.get('/sitemap.xml', function(req, res) {
+  var fullURL = req.protocol + "://" + req.get('host');
+
+  var sitemap = sm.createSitemap ({
+    hostname: fullURL,
+    cacheTime: 600000,
+    urls: [
+      { url: '',  changefreq: 'daily'},
+      { url: '/posts',  changefreq: 'daily'}
+    ]
+  });
+
+  sitemap.toXML( function (xml) {
+      res.header('Content-Type', 'application/xml');
+      res.send( xml );
+  });
 });
 
 http.createServer(app).listen(app.get('port'), function(){
